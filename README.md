@@ -1,6 +1,11 @@
 # UDP-Socket-with-ARQ
  - Client에서 Server로 파일을 전송하는 간단한 프로그램입니다.
+ - netem을 통해 loopback의 loss rate: 10%, delay: 50ms로 설정하고 실험하였습니다.
+ 	- 설정 생성: sudo tc qdisc add dev \<Net Interface> root netem delay \<Time>ms loss \<Persantage>%
+	- 설정 확인: sudo tc qdisc show dev \<Net Interface>
+	- 설정 초기화: sudo tc qdisc del dev \<Net Interface>
 ## Stop-N-Wait
+- 전송용량: 3MB, 평균전송시간: 약 8sec, Buffer size: 50KB
 - Client
 	1. 파일을 열고 파일 이름을 packet에 담아 전송
 	2. - ack을 받은 경우, (iii)으로 이동
