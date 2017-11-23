@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/types.h>
@@ -13,8 +14,8 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 
-#define BUF_SIZE 1024
-#define PAYLOAD_SIZE 1024 - 3 * sizeof(int)
+#define BUF_SIZE 1024 * 50
+#define PAYLOAD_SIZE BUF_SIZE - 3 * sizeof(int)
 #define FILE_NAME 1001
 #define FILE_DATA 1002
 #define FIN 1003
@@ -33,8 +34,7 @@ typedef struct _acknowledge{
     int seq;
 }Acknowledge;
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]){
     int sock;
     Data packet;
     Acknowledge* ack = (Acknowledge*)malloc(sizeof(Acknowledge));
@@ -75,8 +75,8 @@ int main(int argc, char* argv[])
         // Timeout setting
         int result;
         temp = read;
-        timeout.tv_sec = 1;
-        timeout.tv_usec = 0;
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 500000;
 
         // Retransmit 5 times. After than terminate program
         if(ret_count < 5){
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
             exit(1);
         }
 
-        // Wait 1 seconds 
+        // Wait 0.5 seconds 
         result = select(sock + 1, &temp, 0, 0, &timeout);
         if(result > 0){
             int serv_adr_size = sizeof(serv_adr);
@@ -116,8 +116,8 @@ int main(int argc, char* argv[])
             // Timeout setting
             int result;
             temp = read;
-            timeout.tv_sec = 1;
-            timeout.tv_usec = 0;
+            timeout.tv_sec = 0;
+            timeout.tv_usec = 100000;
 
             sendto(sock, (Data*)&packet, sizeof(Data), 0, (struct sockaddr*)&serv_adr, sizeof(serv_adr));
 
