@@ -5,7 +5,7 @@
 	- 설정 확인: sudo tc qdisc show dev \<Net Interface>
 	- 설정 초기화: sudo tc qdisc del dev \<Net Interface>
 ## Stop-N-Wait
-- 전송용량: 3MB, 평균전송시간: 약 8sec, Buffer size: 50KB, Timer: 0.1sec
+- 전송용량: 12MB, 평균전송시간: 약 32sec, Buffer size: 50KB, Timer: 0.1sec
 - Client
 	1. 파일을 열고 파일 이름을 packet에 담아 전송
 	2. - ack을 받은 경우, (iii)으로 이동
@@ -27,7 +27,10 @@
 	4. 종료 요청 packet을 받은 경우, 종료 확인 ack을 전송 후 sequence #를 초기화하고 file pointer를 닫음
 	
 ## Go-Back-N
+- 전송용량: 12MB, 평균전송시간: 약 12sec, Buffer size: 50KB, Timer: 0.1sec, sender window size: 4
+- Client
 todo
-
+- Server
+todo
 ## Selective Repeat
 todo
